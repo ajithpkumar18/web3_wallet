@@ -14,6 +14,9 @@ import {
 } from "@solana/wallet-adapter-react-ui";
 import Airdrop from "./components/Airddrop";
 import { SignMessage } from "./components/SignMessage";
+import AirDrop from "./components/AirDrop";
+import Balance from "./components/Balance";
+import Header from "./components/Header";
 
 function App() {
 	const endpoint = clusterApiUrl("devnet");
@@ -22,10 +25,11 @@ function App() {
 		<ConnectionProvider endpoint={import.meta.env.VITE_SOLANA_RPC_ENDPOINT}>
 			<WalletProvider wallets={wallets} autoConnect>
 				<WalletModalProvider>
-					<WalletMultiButton />
-					<WalletDisconnectButton />
-					<Airdrop />
-					<SignMessage />
+					<div>
+						<Header />
+						<Balance />
+						<AirDrop />
+					</div>
 				</WalletModalProvider>
 			</WalletProvider>
 		</ConnectionProvider>
