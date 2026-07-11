@@ -17,6 +17,7 @@ import { SignMessage } from "./components/SignMessage";
 import AirDrop from "./components/AirDrop";
 import Balance from "./components/Balance";
 import Header from "./components/Header";
+import Transfer from "./components/Transfer";
 
 function App() {
 	const endpoint = clusterApiUrl("devnet");
@@ -29,6 +30,8 @@ function App() {
 						<Header />
 						<Balance />
 						<AirDrop />
+						<SignMessage />
+						<Transfer />
 					</div>
 				</WalletModalProvider>
 			</WalletProvider>
