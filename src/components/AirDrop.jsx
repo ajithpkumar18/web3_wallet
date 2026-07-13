@@ -41,13 +41,17 @@ export default function AirDrop() {
 	};
 
 	return (
-		<div>
-			<div>
-				<span>Airdrop</span>
+		<div className='panel'>
+			<div className='panel-title-row'>
+				<span className='eyebrow'>Airdrop</span>
 			</div>
-			<div>
-				<label htmlFor=''></label>
+			<div className='field'>
+				<label htmlFor='airdrop-amount' className='field-label'>
+					Amount (SOL)
+				</label>
 				<input
+					className='field-input'
+					id='airdrop-amount'
 					type='number'
 					min='0'
 					step='0.1'
@@ -55,10 +59,14 @@ export default function AirDrop() {
 					onChange={(e) => setAmount(e.target.value)}
 				/>
 			</div>
-			<button onClick={requestAirdrop} disabled={pending || !publicKey}>
+			<button
+				className='btn btn-primary'
+				onClick={requestAirdrop}
+				disabled={pending || !publicKey}
+			>
 				{pending ? "Requesting..." : "Request devnet SOL"}
 			</button>
-			{error && <p>{error}</p>}
+			{error && <p className='field-error'>{error}</p>}
 		</div>
 	);
 }

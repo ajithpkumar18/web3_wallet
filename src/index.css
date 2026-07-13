@@ -1,92 +1,101 @@
 @import "tailwindcss";
 
 @theme {
-    --color-bg: #0b0d12;
-    --color-bg-raised: #12151c;
-    --color-panel: #161a23;
-    --color-panel-border: #262b36;
-    --color-panel-border-hover: #343b4a;
+	--color-bg: #0b0d12;
+	--color-bg-raised: #12151c;
+	--color-panel: #161a23;
+	--color-panel-border: #262b36;
+	--color-panel-border-hover: #343b4a;
 
-    --color-hi: #eef0f4;
-    --color-mid: #9aa1b0;
-    --color-low: #5c6373;
-    --color-signal-violet: #9945ff;
-    --color-signal-green: #14f195;
-    --color-signal-red: #ff5c5c;
+	--color-hi: #eef0f4;
+	--color-mid: #9aa1b0;
+	--color-low: #5c6373;
+	--color-signal-violet: #9945ff;
+	--color-signal-green: #14f195;
+	--color-signal-red: #ff5c5c;
 
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
+	--radius-sm: 8px;
+	--radius-md: 14px;
+	--radius-lg: 20px;
 
-    --font-display: 'Space Grotesk', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
-
-
+	--font-display: "Space Grotesk", system-ui, sans-serif;
+	--font-body: "Inter", system-ui, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 
 @layer base {
+	h1,
+	h2,
+	h3 {
+		@apply font-display text-hi m-0;
+	}
 
-    h1,
-    h2,
-    h3 {
-        @apply font-display text-hi m-0;
-    }
+	p {
+		@apply text-mid;
+	}
 
-    p {
-        @apply text-mid;
-    }
+	button {
+		@apply font-body;
+	}
 
-    button {
-        @apply font-body;
-    }
+	input {
+		@apply font-mono;
+	}
 
-    input {
-        @apply font-mono;
-    }
-
-    ::selection {
-        @apply bg-signal-violet/35;
-    }
-
+	::selection {
+		@apply bg-signal-violet/35;
+	}
 }
 
 :root {
-    --signal-gradient: linear-gradient(120deg, var(--color-signal-violet), var(--color-signal-red));
-    color-scheme: dark;
+	--signal-gradient: linear-gradient(
+		120deg,
+		var(--color-signal-violet),
+		var(--color-signal-red)
+	);
+	color-scheme: dark;
 }
 
 body {
-    background:
-        radial-gradient(1100px 520px at 12% -8%, rgba(153, 69, 255, 0.14), transparent 90%),
-        radial-gradient(900px 460px at 100% 0%, rgba(20, 241, 149, 0.08), transparent 55%),
-        var(--color-bg);
-    color: var(--color-hi);
-    min-height: 100svh;
+	background:
+		radial-gradient(
+			1100px 520px at 12% -8%,
+			rgba(153, 69, 255, 0.14),
+			transparent 90%
+		),
+		radial-gradient(
+			900px 460px at 100% 0%,
+			rgba(20, 241, 149, 0.08),
+			transparent 55%
+		),
+		var(--color-bg);
+	background-repeat: no-repeat;
+	color: var(--color-hi);
+	min-height: 100svh;
 }
 
 :focus-visible {
-    outline: 2px solid var(--color-signal-green);
-    outline-offset: 2px;
+	outline: 2px solid var(--color-panel-border);
+	outline-offset: 2px;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+	width: 8px;
+	height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--color-panel-border);
-    border-radius: 8px;
+	background: var(--color-panel-border);
+	border-radius: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.001ms !important;
-        transition-duration: 0.001ms !important;
-    }
+	* {
+		animation-duration: 0.001ms !important;
+		transition-duration: 0.001ms !important;
+	}
 }

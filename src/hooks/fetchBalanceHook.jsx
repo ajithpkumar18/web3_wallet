@@ -7,12 +7,14 @@ const useFetchBalance = () => {
 	const { publicKey } = useWallet();
 
 	const [balance, setBalance] = useState(null);
-
+	const [refreshing, setRefreshing] = useState(false);
 	const getBal = useCallback(async () => {
 		if (!publicKey) {
 			setBalance(null);
 			return;
 		}
+
+		setRefreshing(true);
 		try {
 			const res = await connection.getBalance(publicKey);
 
@@ -20,6 +22,8 @@ const useFetchBalance = () => {
 		} catch (err) {
 			console.log(err);
 		}
+
+		setRefreshing(false);
 	}, [publicKey, connection]);
 
 	function refetch() {
@@ -28,7 +32,7 @@ const useFetchBalance = () => {
 	useEffect(() => {
 		getBal();
 	}, [getBal]);
-	return { refetch, balance };
+	return { refetch, balance, refreshing };
 };
 
 export default useFetchBalance;

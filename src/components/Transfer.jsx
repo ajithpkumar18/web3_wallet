@@ -6,6 +6,7 @@ import {
 	Transaction,
 } from "@solana/web3.js";
 import React, { useState } from "react";
+import useFetchBalance from "../hooks/fetchBalanceHook";
 
 const Transfer = () => {
 	const { publicKey, sendTransaction } = useWallet();
@@ -15,6 +16,7 @@ const Transfer = () => {
 	const [error, setError] = useState(null);
 	const [pending, setPending] = useState(null);
 	const [signature, setSignature] = useState(null);
+	const { refetch } = useFetchBalance();
 
 	const sendSol = async (event) => {
 		event.preventDefault();
@@ -58,6 +60,7 @@ const Transfer = () => {
 
 			setAmount("");
 			setTo("");
+			refetch();
 		} catch (err) {
 			setError(err.message || "Transfer failed");
 		} finally {
@@ -65,15 +68,18 @@ const Transfer = () => {
 		}
 	};
 	return (
-		<div>
-			<div>
-				<span className=''>Transfer</span>
+		<div className='panel'>
+			<div className='panel-title-row'>
+				<span className='eyebrow'>Transfer</span>
 			</div>
 
 			<form onSubmit={sendSol}>
-				<div>
-					<label htmlFor='transfer-amount'>Amount (SOL)</label>
+				<div className='field'>
+					<label htmlFor='transfer-amount' className='field-label'>
+						Amount (SOL)
+					</label>
 					<input
+						className='field-input'
 						type='number'
 						id='transfer-amount'
 						min={0}
@@ -83,9 +89,12 @@ const Transfer = () => {
 						placeholder='0'
 					/>
 				</div>
-				<div>
-					<label htmlFor='transfer-to'>To address</label>
+				<div className='field'>
+					<label htmlFor='transfer-to' className='field-label'>
+						To address
+					</label>
 					<input
+						className='field-input'
 						id='transfer-to'
 						type='text'
 						value={to ?? ""}
@@ -93,11 +102,15 @@ const Transfer = () => {
 						placeholder='Recipient public key'
 					/>
 				</div>
-				<button type='submit' disabled={pending || !publicKey}>
+				<button
+					className='btn btn-primary'
+					type='submit'
+					disabled={pending || !publicKey}
+				>
 					{pending ? "Sending..." : "Send SOL"}
 				</button>
 				{error && <p>{error}</p>}
-				{signature && <p>{signature}</p>}
+				{/* {signature && <p>{signature}</p>} */}
 			</form>
 		</div>
 	);

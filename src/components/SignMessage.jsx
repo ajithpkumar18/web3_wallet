@@ -45,13 +45,16 @@ export function SignMessage() {
 	};
 
 	return (
-		<div>
-			<div>
-				<span>Sign Message</span>
+		<div className='panel'>
+			<div className='panel-title-row'>
+				<span className='eyebrow'>Sign Message</span>
 			</div>
-			<div>
-				<label htmlFor='sign-message'>Message</label>
+			<div className='field'>
+				<label htmlFor='sign-message' className='field-label'>
+					Message
+				</label>
 				<input
+					className='field-input'
 					id='message'
 					value={message ?? ""}
 					onChange={(e) => setMessage(e.target.value)}
@@ -59,11 +62,17 @@ export function SignMessage() {
 					placeholder='Hello there'
 				/>
 			</div>
-			<button onClick={onClick} disabled={pending || !publicKey}>
+			<button
+				className='btn btn-ghost'
+				onClick={onClick}
+				disabled={pending || !publicKey}
+			>
 				{pending ? "Signing..." : "Sign Message"}
 			</button>
-			{error && <p className=''>{error}</p>}
-			{signature && <p>Signature verified locally: {signature}</p>}
+			{error && <p className='field-error'>{error}</p>}
+			{signature && (
+				<p className='hint'>Signature verified locally: {signature}</p>
+			)}
 		</div>
 	);
 }
