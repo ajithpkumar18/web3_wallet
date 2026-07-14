@@ -1,29 +1,16 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useCallback, useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import useTransactionHistory from "../hooks/useTransactions";
 
 export default function ActivityLog() {
-	const { connection } = useConnection();
 	const { publicKey } = useWallet();
-	const [transactions, setTransactions] = useState(null);
-	const [error, setError] = useState(null);
-	const getTransaction = useCallback(async () => {
-		try {
-			const res = await connection.getSignaturesForAddress(publicKey, {
-				limit: 10,
-			});
-			setTransactions(res);
-		} catch (error) {
-			setError(error);
-		}
-	}, [publicKey, connection]);
-	useEffect(() => {
-		if (!publicKey) {
-			setError("Connect a wallet first");
-			return;
-		}
-		getTransaction();
-	}, [getTransaction]);
+	const {
+		data: transactions = [],
+		refetch,
+		error,
+		isLoading,
+	} = useTransactionHistory();
 
+	console.log(transactions);
 	const getTime = (tx) => {
 		const time = tx.blockTime
 			? new Date(Number(tx.blockTime) * 1000).toLocaleString()
@@ -31,6 +18,18 @@ export default function ActivityLog() {
 
 		return time;
 	};
+
+	if (!publicKey) {
+		return <div>Connect a wallet first</div>;
+	}
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>{error.message}</div>;
+	}
 	return (
 		<div className='rounded-lg border border-panel-border	bg-[#0d1016] my-5'>
 			<div className='d-flex gap-2 px-16 py-12 border-b border-b-panel-border font-mono text-xs text-low tracking-[0.4px]'>
@@ -49,7 +48,7 @@ export default function ActivityLog() {
 				) : (
 					transactions.map((transaction) => (
 						<div
-							className='flex gap-3 px-16 py-2 font-mono text-sm items-baseline justify-center border border-panel-border-hover rounded-full my-2'
+							className='flex-col overflow-hidden lg:flex gap-3 px-16 py-2 font-mono text-sm items-baseline justify-center border border-panel-border-hover rounded-full my-2'
 							key={transaction.signature}
 						>
 							<span className='text-low flex-wrap'>

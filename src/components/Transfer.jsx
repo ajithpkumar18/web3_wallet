@@ -5,8 +5,8 @@ import {
 	SystemProgram,
 	Transaction,
 } from "@solana/web3.js";
-import React, { useState } from "react";
-import useFetchBalance from "../hooks/fetchBalanceHook";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Transfer = () => {
 	const { publicKey, sendTransaction } = useWallet();
@@ -15,9 +15,7 @@ const Transfer = () => {
 	const [to, setTo] = useState(null);
 	const [error, setError] = useState(null);
 	const [pending, setPending] = useState(null);
-	const [signature, setSignature] = useState(null);
-	const { refetch } = useFetchBalance();
-
+	const queryClient = useQueryClient();
 	const sendSol = async (event) => {
 		event.preventDefault();
 		setError("");
@@ -55,14 +53,17 @@ const Transfer = () => {
 				}),
 			);
 
-			const res = await sendTransaction(transaction, connection);
-			setSignature(res);
+			await sendTransaction(transaction, connection);
+
+			queryClient.refetchQueries({
+				queryKey: ["balance", publicKey.toBase58()],
+			});
 
 			setAmount("");
+
 			setTo("");
-			refetch();
 		} catch (err) {
-			setError(err.message || "Transfer failed");
+			setError(`${err.message}` || "Transfer failed");
 		} finally {
 			setPending(false);
 		}

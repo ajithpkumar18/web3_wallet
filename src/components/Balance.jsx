@@ -1,11 +1,15 @@
 import { useWallet } from "@solana/wallet-adapter-react";
-import useFetchBalance from "../hooks/fetchBalanceHook";
+import useFetchBalance from "../hooks/useBalance";
 import { shortenAddress } from "../lib/format";
 import { useState } from "react";
 
 const Balance = () => {
 	const { publicKey } = useWallet();
-	const { balance, refetch, refreshing } = useFetchBalance();
+	const {
+		data: balance,
+		refetch,
+		isFetching: refreshing,
+	} = useFetchBalance();
 	const [copied, setCopied] = useState(false);
 
 	const copyAddress = () => {

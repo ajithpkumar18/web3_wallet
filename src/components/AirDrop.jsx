@@ -1,7 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import useFetchBalance from "../hooks/fetchBalanceHook";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AirDrop() {
 	const [amount, setAmount] = useState(0);
@@ -9,7 +9,7 @@ export default function AirDrop() {
 	const { publicKey } = useWallet();
 	const [error, setError] = useState("");
 	const [pending, setPending] = useState(false);
-	const { refetch } = useFetchBalance();
+	const queryClient = useQueryClient();
 
 	const requestAirdrop = async () => {
 		setError("");
@@ -31,8 +31,10 @@ export default function AirDrop() {
 				publicKey,
 				amount * LAMPORTS_PER_SOL,
 			);
-			refetch();
 			if (signature) alert("Airdrop completed");
+			queryClient.invalidateQueries({
+				queryKey: ["balance", publicKey.toBase58()],
+			});
 		} catch (err) {
 			const message = err?.message || "Airdrop failed";
 		} finally {

@@ -12,26 +12,32 @@ import Balance from "./components/Balance";
 import Header from "./components/Header";
 import Transfer from "./components/Transfer";
 import ActivityLog from "./components/ActivityLog";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 function App() {
 	const wallets = useMemo(() => [], []);
 	return (
-		<ConnectionProvider endpoint={import.meta.env.VITE_SOLANA_RPC_ENDPOINT}>
-			<WalletProvider wallets={wallets} autoConnect>
-				<WalletModalProvider>
-					<div className='h-screen my-5 mx-auto w-7/12'>
-						<Header />
-						<Balance />
-						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-							<AirDrop />
-							<Transfer />
+		<QueryClientProvider client={queryClient}>
+			<ConnectionProvider
+				endpoint={import.meta.env.VITE_SOLANA_RPC_ENDPOINT}
+			>
+				<WalletProvider wallets={wallets} autoConnect>
+					<WalletModalProvider>
+						<div className='h-screen my-5 mx-auto w-7/12'>
+							<Header />
+							<Balance />
+							<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+								<AirDrop />
+								<Transfer />
+							</div>
+							<SignMessage />
+							<ActivityLog />
 						</div>
-						<SignMessage />
-						<ActivityLog />
-					</div>
-				</WalletModalProvider>
-			</WalletProvider>
-		</ConnectionProvider>
+					</WalletModalProvider>
+				</WalletProvider>
+			</ConnectionProvider>
+		</QueryClientProvider>
 	);
 }
 
