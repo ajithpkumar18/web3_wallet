@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function AirDrop() {
-	const [amount, setAmount] = useState(0);
+	const [amount, setAmount] = useState(null);
 	const { connection } = useConnection();
 	const { publicKey } = useWallet();
 	const [error, setError] = useState("");
@@ -20,7 +20,7 @@ export default function AirDrop() {
 
 		const sol = Number(amount);
 
-		if (!Number.isFinite(sol) || sol <= 0) {
+		if (!amount || !Number.isFinite(sol) || sol <= 0) {
 			setError("Error an amount greater than 0.");
 			return;
 		}
@@ -32,6 +32,7 @@ export default function AirDrop() {
 				amount * LAMPORTS_PER_SOL,
 			);
 			if (signature) alert("Airdrop completed");
+			setAmount("");
 			queryClient.invalidateQueries({
 				queryKey: ["balance", publicKey.toBase58()],
 			});
@@ -54,6 +55,7 @@ export default function AirDrop() {
 				<input
 					className='field-input'
 					id='airdrop-amount'
+					placeholder='0'
 					type='number'
 					min='0'
 					step='0.1'

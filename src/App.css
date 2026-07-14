@@ -18,9 +18,12 @@
 	}
 
 	.wallet-adapter-button {
-		@apply bg-linear-120! from-signal-violet! to-signal-red! text-[#08060d]! font-display! font-semibold! text-xs! h-9! rounded-full! px-4! py-0! leading-9! hover:opacity-90 disabled:opacity-100 disabled:bg-panel! disabled:text-low! disabled:border! disabled:border-panel-border!;
+		@apply bg-linear-120! from-signal-violet! to-signal-red! text-[#08060d]! font-display! font-semibold! text-xs! h-9! rounded-full! px-4! py-0! leading-9! hover:opacity-90 disabled:opacity-100 disabled:bg-panel! disabled:text-low! disabled:border! disabled:border-panel-border! mb-2!;
 	}
 
+	.wallet-adapter-modal-wrapper {
+		@apply p-8!;
+	}
 	.eyebrow {
 		@apply font-mono text-sm tracking-[0.6px] text-low uppercase flex items-center gap-2;
 	}
@@ -117,4 +120,8 @@
 	padding: 6px 10px;
 	border-radius: 999px;
 	cursor: pointer;
+}
+
+.wallet-adapter-modal-wrapper .wallet-adapter-modal {
+	padding: 2rem !important;
 }
